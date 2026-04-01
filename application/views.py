@@ -8,6 +8,7 @@ from .user_management.create import create_user_device
 from .user_management.delete import delete_user_device
 from .user_management.update import update_user_device
 
+from .models import attendece
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from .attendance.getatttendence import *
@@ -150,16 +151,13 @@ from datetime import datetime
 
 @csrf_exempt
 def push_attendance(request):
-    """
-    Endpoint for device to push attendance logs
-    """
     if request.method == 'POST':
         try:
             
             data = json.loads(request.body)
 
             user_id = data.get('user_id')
-            name = data.get('name', '')
+            name = data.get('name')
             timestamp_str = data.get('timestamp')
             status = data.get('status', 'IN')
 
@@ -167,23 +165,12 @@ def push_attendance(request):
 
             log = attendece.objects.create(
                 user_id=user_id,
-                name=name,
+                name = name,
                 timestamp=timestamp,
                 status=status
             )
 
-            # Example output
-            response = {
-                "success": True,
-                "data": {
-                    "id": log.id,
-                    "user_id": log.user_id,
-                    "name": log.name,
-                    "timestamp": str(log.timestamp),
-                    "status": log.status
-                }
-            }
-            return JsonResponse(response)
+            return JsonResponse("message")
 
         except Exception as e:
             return JsonResponse({"success": False, "error": str(e)})

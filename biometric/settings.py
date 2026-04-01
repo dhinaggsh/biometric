@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-9s(n-8!p8_dxe+f0h!e_y6jplj+6i+7^dk*i2bnl@irbhtltf8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.50.219',
+ALLOWED_HOSTS = ['192.168.50.223',
                  'dhina.onrender.com',
                  'www.dhina.onrender.com',
                  '192.168.50.218',

@@ -14,7 +14,7 @@ urlpatterns = [
     
     path('biometric_push', view=biometric_push, name='biometric_push'),
     
-    path('push', push_attendance, name='push_attendance'),
+    path('push', view=push_attendance, name='push_attendance'),
     path('process_data', view=process_data, name='process_data'),
     path('iclock/getrequest.aspx', view=getrequest),
     path('iclock/cdata.aspx', view=cdata),
