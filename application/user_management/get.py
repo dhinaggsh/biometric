@@ -1,6 +1,9 @@
 from .connection import getconnection
 
+
+conn=None
 def getemployees():
+    global conn
     try:
         conn = getconnection()
         users = conn.get_users()
