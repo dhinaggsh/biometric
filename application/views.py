@@ -148,6 +148,7 @@ def selected_user_attendance(request):
 
 from datetime import datetime
 
+@csrf_exempt
 def push_attendance(request):
     """
     Endpoint for device to push attendance logs

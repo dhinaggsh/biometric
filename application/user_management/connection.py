@@ -1,6 +1,6 @@
 from zk import ZK
 
-DEVICE_IP = '192.168.50.201'
+DEVICE_IP = '192.168.50.223'
 DEVICE_PORT = 4370
 
 # Device conection

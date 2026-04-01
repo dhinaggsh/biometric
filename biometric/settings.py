@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['192.168.50.219',
                  'dhina.onrender.com',
+                 'www.dhina.onrender.com',
                  '192.168.50.218',
                  'localhost',
                  '127.0.0.1']
