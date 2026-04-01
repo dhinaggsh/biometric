@@ -42,10 +42,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'application',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -56,6 +58,16 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'biometric.urls'
+
+
+CORS_ALLOWED_ORIGINS = [
+    "http://192.168.50.223",
+    "http://192.168.50.218",
+    "http://dhina.onrender.com",
+    "https://dhina.onrender.com",
+]
+
+CORS_ALLOW_CREDENTIALS = True
 
 TEMPLATES = [
     {
@@ -78,14 +90,27 @@ WSGI_APPLICATION = 'biometric.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'db1',
+#         'USER': 'root',
+#         'PASSWORD': 'dhina311003',
+#         'HOST': 'localhost',
+#         'PORT': '3306',
+#     }
+# }
+
+import os
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'db1',
-        'USER': 'root',
-        'PASSWORD': 'dhina311003',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'NAME': os.getenv('DB_NAME', 'db1'),
+        'USER': os.getenv('DB_USER', 'root'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'dhina311003'),
+        'HOST': os.getenv('DB_HOST', 'localhost'),
+        'PORT': os.getenv('DB_PORT', '3306'),
     }
 }
 

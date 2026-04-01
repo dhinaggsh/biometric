@@ -149,30 +149,53 @@ def selected_user_attendance(request):
 
 from datetime import datetime
 
+import json
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
+from datetime import datetime
+from .models import attendece
+
 @csrf_exempt
+@require_http_methods(["POST"])
 def push_attendance(request):
-    if request.method == 'POST':
-        try:
-            
-            data = json.loads(request.body)
-
-            user_id = data.get('user_id')
-            name = data.get('name')
-            timestamp_str = data.get('timestamp')
-            status = data.get('status', 'IN')
-
-            timestamp = datetime.strptime(timestamp_str, '%Y-%m-%d %H:%M:%S')
-
-            log = attendece.objects.create(
-                user_id=user_id,
-                name = name,
-                timestamp=timestamp,
-                status=status
-            )
-
-            return JsonResponse("message")
-
-        except Exception as e:
-            return JsonResponse({"success": False, "error": str(e)})
-
-    return JsonResponse({"success": False, "error": "Only POST allowed"})
+    try:
+        data = json.loads(request.body)
+        
+        user_id = data.get('user_id')
+        name = data.get('name', '')
+        timestamp_str = data.get('timestamp')
+        status = data.get('status', 'IN')
+        
+        # Validate required fields
+        if not user_id or not timestamp_str:
+            return JsonResponse({
+                "success": False, 
+                "error": "user_id and timestamp required"
+            }, status=400)
+        
+        timestamp = datetime.strptime(timestamp_str, '%Y-%m-%d %H:%M:%S')
+        
+        log = attendece.objects.create(
+            user_id=user_id,
+            name=name,
+            timestamp=timestamp,
+            status=status
+        )
+        
+        return JsonResponse({
+            "success": True,
+            "message": "Attendance recorded",
+            "id": log.id
+        })
+        
+    except ValueError as e:
+        return JsonResponse({
+            "success": False,
+            "error": f"Invalid timestamp format: {str(e)}"
+        }, status=400)
+    except Exception as e:
+        return JsonResponse({
+            "success": False,
+            "error": str(e)
+        }, status=500)
